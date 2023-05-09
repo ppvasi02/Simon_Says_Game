@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simon Says Mini Game</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Simon Says</h1>
+    <div id="buttons">
+        <div class="row">
+          <button id="button1" style="width: 100px; height: 100px;" onclick="conditional(0)"></button>
+          <button id="button2" style="width: 100px; height: 100px;" onclick="conditional(1)"></button>
+          <button id="button3" style="width: 100px; height: 100px;" onclick="conditional(2)"></button>
+        </div>
+        <div class="row">
+          <button id="button4" style="width: 100px; height: 100px;" onclick="conditional(3)"></button>
+          <button id="button5" style="width: 100px; height: 100px;" onclick="conditional(4)"></button>
+          <button id="button6" style="width: 100px; height: 100px;" onclick="conditional(5)"></button>
+        </div>
+        <div class="row">
+          <button id="button7" style="width: 100px; height: 100px;" onclick="conditional(6)"></button>
+          <button id="button8" style="width: 100px; height: 100px;" onclick="conditional(7)"></button>
+          <button id="button9" style="width: 100px; height: 100px;" onclick="conditional(8)"></button>
+        </div>
+    </div>
+    <script>
+      const buttons = document.querySelectorAll("#buttons button");
+      var answerList = [];
+      var count;
+      var check;
+
+      restart();
+
+      function restart(){
+        count = 1;
+        check = 1;
+        var answerList = [];
+        generate();
+        showSequence();
+      }
+      
+      function generate(){
+        for(let i = 0; i < 5; i++){
+          answerList[i] = Math.floor(Math.random() * 9);
+        }
+        alert('You are now playing Simon Says');
+      }
+
+      function showSequence(){
+        for (let i = 0; i < 9; i++){
+          buttons[i].disabled = true;
+          buttons[i].style.background = 'rgba(195, 195, 195, 0.3)'
+        }
+        sequential(0);
+        for (let i = 0; i < 9; i++){
+          buttons[i].disabled = false;
+        }
+      }
+
+      function sequential(i){
+        flash(answerList[i], 'blue');
+        if (i < count-1){
+          setTimeout(function(){sequential(i+1);}, 500);
+        }
+      }
+
+      function flash(i, color){
+        buttons[i].style.background = color;
+        setTimeout(function(){buttons[i].style.background = 'rgba(195, 195, 195, 0.3)';}, 300);
+      }
+
+      function conditional(number){
+        if (number != answerList[check-1]){
+          for (let i = 0; i < 9; i++){
+            flash(i, 'red');
+          }
+          count = 1;
+          check = 1;
+          setTimeout(function(){restart();}, 500);
+        } else if (check == count){
+          flash(number, 'green');
+          if (count == 5){
+            setTimeout(function(){restart();}, 1000);
+          }
+          count++;
+          check = 1;
+          setTimeout(function(){showSequence();}, 1000);
+        } else {
+          check++;
+          flash(number, 'green');
+        }
+      }
+    </script>
+</body>
+
+</html>
