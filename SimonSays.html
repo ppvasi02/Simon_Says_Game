@@ -32,16 +32,15 @@
     </div>
     <script>
       const buttons = document.querySelectorAll("#buttons button");
-      var answerList = [];
-      var count;
-      var check;
+      var answerList = [0,0,0,0,0];
+      var count = 1;
+      var check = 1;
 
       restart();
 
       function restart(){
         count = 1;
         check = 1;
-        var answerList = [];
         generate();
         showSequence();
       }
